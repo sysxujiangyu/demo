@@ -11,13 +11,13 @@
 	<div id="app">
 		<div class="left">
 			<ul>
-				<li v-for="item in demoList" ><button @click="toPage(item.path)">{{item.title}}</button></li>
+				<li v-for="item in demoList" ><button @click="toPage(item.path, item.type)">{{item.title}}</button></li>
 			</ul>
 		</div>
 		<div class="right">
-			<iframe id="myIframe" :src="pagePath"></iframe>
+			<iframe ref="iframe" name="myiframe" :src="pagePath" @load="onIframeLoad"></iframe>
 		</div>
-		
+		<button class="refresh-btn" @click="refresh">刷新内容框</button>
 	</div>
 	
 </body>
@@ -27,34 +27,32 @@
   	createApp({
 	    setup() {
 			demoList = ref(demoList)
-			var pagePath = ref('')
-			const toPage = (path) => {
-				pagePath.value = path
-				// 假设你的iframe有一个id为"myIframe"
-				var iframe = document.getElementById('myIframe');
-				 
-				// 等待iframe加载完成
-				iframe.onload = function(e) {
-
-					// var pre = iframe.contentWindow.document.getElementsByName('pre')
-				    // 获取iframe的document对象
-				    // var iframeDoc = iframe.contentWindow.document;
-				 
-				    // // 获取iframe中的内容
-				    // var content = iframeDoc.body.innerHTML;
-				 
-				    // // 输出或处理获取的内容
-				    // console.log(content, 'this is content');
-				    console.log(iframe.contentWindow.document, 'this is iframe');
-				    // console.log(pre, 'this is pre');
-				};
+			const iframe = ref(null);
+			let pagePath = ref('')
+			const toPage = (path, type = false) => {
+				if(type === 'md'){
+					pagePath.value = './md/index.html?name=' + path
+				} else {
+					pagePath.value = './module/' + path + '/index.html'
+				}
+			}
+			const onIframeLoad = () => {
+			}
+			const refresh = () => {
+				iframe.value.contentWindow.location.reload()
 			}
 			return {
 				demoList,
+				iframe,
 				pagePath,
-				toPage
+				onIframeLoad,
+				toPage,
+				refresh
 			}
-	    }
+	    },
+		mounted() {
+			// this.onIframeLoad()
+		}
   	}).mount('#app')
 
 </script>

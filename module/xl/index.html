@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title></title>
+</head>
+<body>
+	<ul>
+		<li>统一从最后借款日期算起：</li>
+		<li>借款金额为：￥<span id="startPrice"></li>
+		<li>借款日期：<span id="startTime"><?php echo $startTime; ?></li>
+		<li>基础日利率为：<span id="interestRate"><?php echo $interestRate; ?> </li>
+		<li>日利率变更信息：<br>
+			<span id="interestRateArr"></span>
+		</li>
+		
+		<li>还款明细：<br>
+		    <span id="repaymentArr"></span>
+		</li>
+		<li>当前日期：<span id="nowDay"></li>
+		<li>截止当前借款天数：<span id="nowDays"></li>
+		<li>截止当前借款总金额：￥<span id="price"></li>
+		
+	</ul>
+</body>
+<script type="text/javascript">
+	// 初始借款金额
+	var price = startPrice = 49000;
+	var startPriceSpan = document.getElementById('startPrice')
+	startPriceSpan.innerHTML = startPrice
+	// 借款日期
+	var startTime = '2021-02-06'
+	var startTimeSpan = document.getElementById('startTime')
+	startTimeSpan.innerHTML = startTime
+	// 日期相关
+	var date = new Date(),
+		year = date.getFullYear(),
+		month = date.getMonth() + 1,
+		day = date.getDate(),
+		month = month < 10 ? '0' + month : month
+		today = year + "-" + month + "-" + day,
+		days = getDiffDay(today, startTime, true)
+	// 当前日期
+	var nowDaySpan = document.getElementById('nowDay')
+	nowDaySpan.innerHTML = today
+	// 截止当前借款天数
+	var nowDaysSpan = document.getElementById('nowDays')
+	nowDaysSpan.innerHTML = days
+	
+	// 基础日利率
+	var startInterestRate = 0.00035;
+	var interestRateSpan = document.getElementById('interestRate')
+
+	// 利率变更日期
+	var interestRateArr = [
+		{date: '2021-02-06', interestRate: 0.00035, price: 49000},
+		{date: '2023-01-18', interestRate: 0.00045, price: 62842},
+	];
+	var interestRateArrSpan = document.getElementById('interestRateArr')
+	var interestRateArrString = '';
+
+	// 还款记录
+	var repaymentString = '', repaymentDays = [], repaymentArr = [
+		{date:'2023-03-26', price: 64794, repayment: 10000}
+	]
+	var repaymentArrSpan = document.getElementById('repaymentArr')
+	repaymentArr.forEach((data) => {
+		repaymentString += '&nbsp;&nbsp;&nbsp;' + data.date + ' || 还款金额：￥' + data.repayment + ' || 还款前本金：￥' + data.price + '<br>'
+		repaymentDays.push(getDiffDay(data.date, startTime, true))
+	})
+	repaymentArrSpan.innerHTML = repaymentString
+
+	// 计算过成
+	var ii, interestRate, interestRateDay, iii, key, count = 0;
+	for(i in interestRateArr){
+		interestRateArrString += '&nbsp;&nbsp;&nbsp;' + interestRateArr[i].date + ' || 利率变更为：' + interestRateArr[i].interestRate + ' || 变更时未还本金：￥' + interestRateArr[i].price
+		i = Number(i)
+		ii = i + 1
+		if(interestRateArr[ii]){
+			interestRateArrString += '<br>'
+			interestRateDay = getDiffDay(interestRateArr[ii].date, interestRateArr[i].date)
+		} else {
+			startInterestRate += ' -> ' + interestRateArr[i].interestRate
+			interestRateDay = getDiffDay(today, interestRateArr[i].date, true)
+		}
+		interestRate = interestRateArr[i].interestRate
+		// console.log(price, 'this is price')
+		for(iii = 0; iii < interestRateDay; iii++){
+			// console.log(price * interestRate, 'this is interestRate')
+			price += price * interestRate
+			count++
+			key = repaymentDays.indexOf(count)
+			if(key !== -1){
+				// console.log(price)
+				price -= repaymentArr[key].repayment
+			}
+		}
+	}
+	interestRateSpan.innerHTML = startInterestRate
+	interestRateArrSpan.innerHTML = interestRateArrString
+	// 截止当前借款总金额
+	var priceSpan = document.getElementById('price')
+	priceSpan.innerHTML = Math.floor(price)
+
+    // 计算两个日期之间的天数（type 为 true 时包含当前天数）
+	function getDiffDay(date_1, date_2, type = false) {
+		let totalDays,diffDate
+		let myDate_1 = Date.parse(date_1)
+		let myDate_2 = Date.parse(date_2)
+		diffDate = Math.abs(myDate_1 - myDate_2)
+		totalDays = Math.floor(diffDate / (1000 * 3600 * 24))
+		if(type) totalDays++
+		return totalDays
+	}
+</script>
+<style type="text/css">
+	li{
+		width: 100%;
+		/*border: 1px solid red;*/
+	}
+</style>
+</html>

@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<script src="../../static/js/vue.global.js"></script>
+	<title></title>
+</head>
+<body>
+	<div id="app">
+		<div>
+			<button @click="start">开始</button>
+			<button @click="suspend">暂停</button>
+		</div>
+		<div>{{message}}</div>
+		<div><iframe src="../../md/index.html?name=processTasks" width="100%" height="500px"></iframe></div>
+	</div>
+	
+</body>
+<script type="text/javascript">
+	const { createApp, ref } = Vue
+  	createApp({
+	    setup() {
+			var message = ref('')
+			// 假设我们有两个异步任务
+			const task1 = () => new Promise((resolve) => {
+				setTimeout(() => {
+					message.value += " || 任务1执行中"
+					console.log("Task 1 completed");
+					resolve("Task 1 result");
+				}, 1000);
+			});
+
+			const task2 = () => new Promise((resolve) => {
+				setTimeout(() => {
+					message.value += ' || 任务2执行中'
+					console.log("Task 2 completed");
+					resolve("Task 2 result");
+				}, 2000);
+			});
+			// 创建 processTasks 函数的实例
+			let tasks = null;
+			const start = () => {
+				if(!tasks){
+					tasks = processTasks(task1, task2, task1, task2);
+				}
+				message.value += ' || 任务开始'
+				// 开始处理任务
+				tasks.start().then(res => {
+					console.log(res, 'this is res');
+					message.value += ' || 任务完成'
+					tasks = null;
+				})
+			}
+			const suspend = () => {
+				if(!tasks){
+					message.value += ' || 无待执行任务'
+					return;
+				}
+				tasks.pause();
+				message.value += ' || 任务暂停'
+			}
+			
+			/**
+			 * 依次顺序执行一系列任务
+			 * 所有任务全部完成后可以得到每个任务执行结果
+			 * 需要返回两个方法，start用于启动任务，pause用于暂停任务
+			 * 每个任务具有原子性，既不可中断，只能在两个任务之间中断
+			 * @param {...Function} tasks 任务列表，每个任务无参，异步
+			 */
+			const processTasks = (...tasks) => {
+				let isRunning = false;
+				const  result = [];
+				let i = 0;
+				return {
+					start(){
+						return new Promise(async resolve => {
+							if(isRunning){
+								return;
+							}
+							isRunning = true;
+							while(i < tasks.length){
+								const task = tasks[i];
+								const r = await task();
+								result.push(r);
+								i++;
+								// 判断是否为暂停状态
+								if(!isRunning){
+									return;
+								}
+							}
+							isRunning = false;
+							resolve(result);
+						})
+					},
+					pause(){
+						isRunning = false;
+					}
+				}
+			}
+			return {
+				message,
+				start,
+				suspend
+			}
+	    }
+  	}).mount('#app')
+
+</script>
+</html>

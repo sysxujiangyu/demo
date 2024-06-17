@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title></title>
+    <link rel="stylesheet" href="../static/css/github-markdown.min.css">
+    <link rel="stylesheet" href="../static/css/prism.css">
+    
+</head>
+<body>
+<div id="content"></div>
+<div id="show"></div>
+</body>
+<!-- <script src="../static/js/marked.min.js"></script> -->
+<script src="../static/js/jquery-3.7.1.min.js"></script>
+<script src="../static/js/prism.js"></script>
+<script src="../static/js/showdown.min.js"></script>
+<script src="../static/js/showdown-katex.min.js"></script>
+<script type="text/javascript">
+    function loadScript(url, callback) {
+        var script = document.createElement("script");
+        script.type = "text/javascript";
+        // 当脚本加载完成并执行后触发回调函数
+        if (script.readyState) {  // 仅限IE
+            script.onreadystatechange = function() {
+                if (script.readyState == "loaded" || script.readyState == "complete") {
+                    script.onreadystatechange = null;
+                    callback();
+                }
+            };
+        } else {  // 其他浏览器
+            script.onload = function() {
+                callback();
+            };
+        }
+        // 设置脚本URL开始加载
+        script.src = url;
+        document.getElementsByTagName("head")[0].appendChild(script);
+    }
+
+    const urlParams = new URLSearchParams(window.location.search);
+    const paramValue = urlParams.get('name');
+    loadScript('./'+ paramValue + '.js', function() {
+        // 在这里访问script.js中定义的变量或函数
+        var show = document.getElementById('show');
+	    // show.innerHTML = marked.parse(md);
+        const converter = new showdown.Converter({
+            extensions: [
+                // 'prism',
+                showdownKatex({// 添加showdown-katex使用
+                    throwOnError: false,
+                    displayMode: false,
+                    errorColor: '#1500ff',
+                    delimiters: [
+                        { left: "$$", right: "$$", display: false },
+                        { left: '~', right: '~', display: false, asciimath: true },
+                        {
+                            left: '$', right: '$', display: false
+                        },
+                    ],
+                }),
+            ],
+        });
+	    show.innerHTML = converter.makeHtml(md);
+    });
+</script>
+</html>

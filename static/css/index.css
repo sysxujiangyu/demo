@@ -1,14 +1,17 @@
 #app{
 display: flex;
+overflow-x: hidden;
 }
 .left{
 width:20vw;
+min-width: 240px;
 height:98vh;
 overflow: scroll;
 overflow-x: hidden;
 }
 .right{
 width:78vw;
+min-width: 500px;
 }
 iframe{
 width:100%;
@@ -19,9 +22,17 @@ list-style-type: none;
 margin: 20px;
 }
 button{
-margin: 2px 15px;
+margin: 6px 15px;
+padding:3px 5px;
+
+}
+button:hover{
+cursor: pointer;
 }
 *{
 padding: 0;
 margin: 0;
+}
+.refresh-btn{
+    width:25px;
 }

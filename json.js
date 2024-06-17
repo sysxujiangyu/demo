@@ -1,156 +1,40 @@
 var demoList = [
   {
+    'title':'晓磊',
+    'path':'xl',
+  },
+  {
     'title':'测试demo',
-    'path':'./module/demo.html',
+    'path':'demo',
+  },
+  {
+    'title':'vscode 插件',
+    'path':'vscode',
+    'type':'md'
   },
   {
     'title':'不规则的文字环绕',
-    'path':'./module/huanrao.html',
+    'path':'huanrao',
   },
   {
     'title':'实现手机下方导航',
-    'path':'./module/talbar.html',
+    'path':'talbar',
   },
   {
     'title':'任务队列的中断和回复',
-    'path':'./module/processTasks.html',
+    'path':'processTasks',
   },
   {
     'title':'async/await是什么',
-    'path':'./md/index.md',
-    // 'path':'./md/async_await.html',
-    'md':true
+    'path':'async_await',
+    'type':'md'
   },
   {
-    'title':'实现手机下方导航',
-    'path':'./module/talbar.html',
+    'title':'黑白小球交替的loading效果',
+    'path':'black_white',
   },
   {
-    'title':'实现手机下方导航',
-    'path':'./module/talbar.html',
-  },
-  {
-    'title':'实现手机下方导航',
-    'path':'./module/talbar.html',
-  },
-  {
-    'title':'实现手机下方导航',
-    'path':'./module/talbar.html',
-  },
-  {
-    'title':'实现手机下方导航',
-    'path':'./module/talbar.html',
-  },
-  {
-    'title':'实现手机下方导航',
-    'path':'./module/talbar.html',
-  },
-  {
-    'title':'实现手机下方导航',
-    'path':'./module/talbar.html',
-  },
-  {
-    'title':'实现手机下方导航',
-    'path':'./module/talbar.html',
-  },
-  {
-    'title':'实现手机下方导航',
-    'path':'./module/talbar.html',
-  },
-  {
-    'title':'实现手机下方导航',
-    'path':'./module/talbar.html',
-  },
-  {
-    'title':'实现手机下方导航',
-    'path':'./module/talbar.html',
-  },
-  {
-    'title':'实现手机下方导航',
-    'path':'./module/talbar.html',
-  },
-  {
-    'title':'实现手机下方导航',
-    'path':'./module/talbar.html',
-  },
-  {
-    'title':'实现手机下方导航',
-    'path':'./module/talbar.html',
-  },
-  {
-    'title':'实现手机下方导航',
-    'path':'./module/talbar.html',
-  },
-  {
-    'title':'实现手机下方导航',
-    'path':'./module/talbar.html',
-  },
-  {
-    'title':'实现手机下方导航',
-    'path':'./module/talbar.html',
-  },
-  {
-    'title':'实现手机下方导航',
-    'path':'./module/talbar.html',
-  },
-  {
-    'title':'实现手机下方导航',
-    'path':'./module/talbar.html',
-  },
-  {
-    'title':'实现手机下方导航',
-    'path':'./module/talbar.html',
-  },
-  {
-    'title':'实现手机下方导航',
-    'path':'./module/talbar.html',
-  },
-  {
-    'title':'实现手机下方导航',
-    'path':'./module/talbar.html',
-  },
-  {
-    'title':'实现手机下方导航',
-    'path':'./module/talbar.html',
-  },
-  {
-    'title':'实现手机下方导航',
-    'path':'./module/talbar.html',
-  },
-  {
-    'title':'实现手机下方导航',
-    'path':'./module/talbar.html',
-  },
-  {
-    'title':'实现手机下方导航',
-    'path':'./module/talbar.html',
-  },
-  {
-    'title':'实现手机下方导航',
-    'path':'./module/talbar.html',
-  },
-  {
-    'title':'实现手机下方导航',
-    'path':'./module/talbar.html',
-  },
-  {
-    'title':'实现手机下方导航',
-    'path':'./module/talbar.html',
-  },
-  {
-    'title':'实现手机下方导航',
-    'path':'./module/talbar.html',
-  },
-  {
-    'title':'实现手机下方导航',
-    'path':'./module/talbar.html',
-  },
-  {
-    'title':'实现手机下方导航',
-    'path':'./module/talbar.html',
-  },
-  {
-    'title':'实现手机下方导航',
-    'path':'./module/talbar.html',
+    'title':'视频文本话',
+    'path':'video_text',
   },
 ]
