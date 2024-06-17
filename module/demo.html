@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title></title>
+</head>
+<body>
+	<div>
+		<button onclick="">点击播放</button>
+		<button onclick="click_qrcode()">点击扫码</button>
+		<button onclick="socketSend()">socket发送</button>
+	</div>
+	<div id="socketMsg"></div>
+</body>
+<script type="text/javascript" src="https://res.wx.qq.com/open/js/jweixin-1.4.0.js"></script>
+<script type="text/javascript">
+	// 播放音频
+	// 设置一个1000毫秒后执行的定时器
+	var audio = new Audio('../static/media/tongzhi.mp3'); // 创建 Audio 对象
+	function clicks(){
+	    console.log('Hello, World!');
+
+		// setTimeout(function() {
+		// 	audio.play();
+		// }, 1000);
+		setInterval(function() {
+			audio.play();
+		}, 2000);
+
+		audio.addEventListener('ended', function() {
+		    console.log('音频播放结束');
+		});
+	}
+	clicks()
+
+	var ws = new WebSocket('ws://127.0.0.1:20000'); //此处改成自己的服务器IP与端口号
+	//连接成功时触发
+	ws.onopen = function () {
+		console.log("服务连接成功!");
+		//初始化用户信息 adminInfo看自己业务需求自己定义
+		// socket.send(adminInfo);
+	};
+
+    function socketSend() {
+        ws.send('test');
+
+    }
+ 
+
+	//监听收到的消息
+	ws.onmessage = function (res) {
+		console.log('socket:', res);
+
+		var data = eval("(" + res.data + ")");
+		switch (data['type']) {
+			//服务端心跳
+			case 'ping':
+				socket.send('{"type":"ping"}');
+				break;
+			//初始化成功
+			case "clock":  //建立链接成功，定时刷新
+				break;
+			//服务端通知有新的数据
+			case "message_update": //有新的消息
+				var socketMsg = document.getElementById('socketMsg')
+				var textNode = document.createTextNode(data.msg + "\n")
+				socketMsg.appendChild(textNode)
+				console.log('有新的消息', data);
+				// ... 写新消息下的业务逻辑
+				break;
+		}
+	}
+
+
+
+	wx.config({
+		debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数
+		appId: '',
+		timestamp: '', // 必填，生成签名的时间戳
+		nonceStr: '', // 必填，生成签名的随机串
+		signature: '',// 必填，签名
+		jsApiList: ['scanQRCode'] // 必填，需要使用的JS接口列表
+	});
+	wx.ready(function () {
+		wx.checkJsApi({
+			jsApiList: ['scanQRCode'],
+			success: function (res) {
+			    console.log(res,'当前登录环境支持扫码')
+
+			},
+			fail: function (e) {
+			    console.log(e,'当前登录环境不支持扫码,请切换微信环境')
+			}
+		});
+	}); 
+	function click_qrcode(){
+    	console.log('调起扫码');
+
+		wx.scanQRCode({
+		  needResult: 0, // 默认为0，扫描结果由微信处理，1则直接返回扫描结果，
+		  scanType: ["qrCode","barCode"], // 可以指定扫二维码还是一维码，默认二者都有
+		  success: function (res) {
+		    var result = res.resultStr; // 当needResult 为 1 时，扫码返回的结果
+		    console.log(res,'this is 扫码结果')
+		  }
+		});
+	}
+</script>
+</html>

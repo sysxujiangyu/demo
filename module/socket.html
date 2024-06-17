@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title></title>
+</head>
+<body>
+<div class="panel panel-default panel-intro">
+    <input type="hidden" id="uid" value="{$uid}">
+    <div class="main wrap">
+        <ul id="talk" class="wrap">
+            {foreach name="list" item="vo"}
+              {if condition="$vo.message_type!='2'"}
+                  
+                  {if condition="$vo.info_type=='1'"}
+                      <li class="right"><p>{$vo.message_info}</p></li>
+                  {else}
+                      <li class="right"><img src="{$vo.message_info}" style="width:100px;height:100px;"></li>
+                  {/if}
+              {else}
+                  {if condition="$vo.info_type=='1'"}
+                      <li class="left"><p>{$vo.message_info}</p></li>
+                  {else}
+                      <li class="left"><img src="{$vo.message_info}" style="width:100px;height:100px;"></li>
+                  {/if}
+              {/if}
+            {/foreach}
+        </ul>
+    </div>
+
+    <div class="comment">
+        <textarea id="comment" class="form-control editor" rows="1" name="comment" cols="50"></textarea>
+        <input type="file" name="pic" id="file" style="display:none">
+        <span id="pic">图片</span>
+        <button type="button" class="butt send-btn">发送</button>
+    </div>
+</div>
+
+</body>
+<script type="text/javascript">
+    var fromid = {$from_id};
+    var toid = {$uid};
+    var ws = new WebSocket("ws://0.0.0.0");
+      ws.onmessage = function(e){
+        console.log(e);
+          var message = eval("("+e.data+")");
+          switch(message.type){
+              case "answer" :
+                  if(toid==message.fromid){
+                      var html = '';
+                      if(message.infotype=='1'){
+                        html += '<li class=\"right\">'+'<p>'+message.data+'</p>'+'</li>';
+                      }else{
+                        html += '<li class=\"right\"><img src=\"'+message.data+'\" style="width:100px;height:100px;"></li>';
+                      }
+                      
+                      $("#talk").append(html);
+                      message.type = '1';
+                      send(message);
+                  }
+              break;
+              case "init" :
+                  var bind = '{"type":"bind","fromid":"'+fromid+'"}';
+                  ws.send(bind);/*接收到服务端发来的绑定uid请求，将uid发送至服务端进行绑定（2）*/
+              break;
+              case "ping" :
+                var pong = '{"type":"pong","fromid":"'+fromid+'"}' 
+              break;
+              case "save" :
+                if(message.fromid==fromid){
+                    message.fromid = toid;
+                    message.type='2';
+                    send(message);
+                }
+            break;
+          }
+      };
+      $(".send-btn").click(function() {
+          var message = $("#comment").val();
+          var html = '';
+          html += '<li class=\"left\">'+'<p>'+message+'</p>'+'</li>';
+          $("#talk").append(html);
+          $("#comment").val("");
+          var msg = '{"type":"say","infotype":"1","data":"'+message+'","fromid":"'+fromid+'","toid":"'+toid+'"}';
+          // send();
+          ws.send(msg); 
+
+      });
+  function send(message){
+    var uid = message.fromid;
+    var content = message.data;
+    var time = message.time;
+    var isread = message.isread;
+
+    $.ajax({
+        url: "{:url('vilage/message/talk')}",
+        type: 'POST',
+        dataType: 'json',
+        data: {
+            'uid' : uid,
+            'content' : content,
+            'time' : time,
+            'isread' : isread,
+            'type':message.type,
+            'info_type':message.infotype
+        }
+    })
+  }
+  
+  $(document).ready(function(){
+    $('#talk').scrollTop( $('#talk')[0].scrollHeight );
+  });
+
+  $("#pic").click(function() {
+          $("#file").click();
+  });
+  $("#file").change(function() {
+        fromdata = new FormData();
+        fromdata.append('file',$("#file")[0].files[0]);
+        $.ajax({
+            url: "{:url('vilage/message/upload')}",
+            type: 'post',
+            dataType: 'json',
+            data: fromdata,
+            processData:false,
+            contentType:false,
+            success:function(res){
+                console.log(res);
+                res = JSON.parse(res);
+                console.log(res);
+                if(res.code==1)
+                {
+                    var domain = window.location.host;
+                    var imgurl = 'http://' + domain + res.url;
+                    var msg  = '{"type":"say","infotype":"2","infotype":"2","data":"'+imgurl+'","fromid":"'+fromid+'","toid":"'+toid+'"}';
+                    var html = '';
+                    html += '<li class=\"left\"><img src=\"'+imgurl+'\" style="width:100px;height:100px;"></li>';
+                    $("#talk").append(html);
+                    $(".chat-content").append(html);
+
+                    ws.send(msg);
+                }else{
+                    alert(res.msg);
+                }
+            }
+        })
+        
+    });
+   
+</script>
+
+</html>

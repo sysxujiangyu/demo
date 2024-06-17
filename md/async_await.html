@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title></title>
+	<style type="text/css">
+		#content{
+/*			display: none;*/
+		}
+	</style>
+</head>
+<body>
+<div id="content">	
+	<iframe src="./index.md"></iframe>
+</div>
+<div id="show"></div>
+</body>
+<script src="../static/js/marked.min.js"></script>
+<script src="../static/js/jquery-3.7.1.min.js"></script>
+<script type="text/javascript">
+	var content = document.getElementById('content');
+	var show = document.getElementById('show');
+	show.innerHTML = marked.parse(content.innerHTML);
+	console.log(content.innerHTML, 'this is content')
+	console.log(show, 'this is show')
+</script>
+</html>
