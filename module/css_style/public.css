@@ -1,0 +1,24 @@
+* {
+  font-family: "Rokkitt", "Arial", sans-serif;
+}
+
+.menu-box {
+  position: sticky;
+  background: #fff;
+  top: 0;
+  z-index: 999;
+  padding: 5px;
+  border: 1px solid;
+}
+
+.menu-box a, .color-border {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px;
+  font-size: 12px;
+  transform: scale(0.9);
+  -o-border-image: linear-gradient(265.13deg, #a392e8 -6.01%, #f17e99 33.34%, #f0933d 48.66%, #96be2a 64.54%, #5acba2 83.26%) 20%;
+     border-image: linear-gradient(265.13deg, #a392e8 -6.01%, #f17e99 33.34%, #f0933d 48.66%, #96be2a 64.54%, #5acba2 83.26%) 20%;
+  border-style: solid;
+}/*# sourceMappingURL=public.css.map */

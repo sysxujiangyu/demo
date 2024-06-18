@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="../css_style/public.css">
+    <link rel="stylesheet" href="./index.css">
+</head>
+<body>
+<div class="menu-box">
+    <a href="#walk">函数[生成器/迭代器]<</a>
+    <a href="#private-string">私有字段</a>
+</div>
+<a name="walk"><h3>函数[生成器/迭代器]</h3></a>
+<pre>
+示例：比较版本号
+语义版本规范：x.y.z[-p]
+    12.3.1
+    12.6.7
+    1.5.7-alpha.1
+    2.3.5-beta
+
+function* walk(str){
+    let part = '';
+    let terminals = ['.', '-'];
+    for(var i = 0; i < str.length; i++){
+        if(terminals.indexOf(str[i]) !== -1){ // if(terminals.includes(str[i]) !== -1){
+            // 终结符
+            yield part; // 为纯数字时候可使用 yield parseInt(part); 
+            part = '';
+        }
+        else{
+            part += str[i];
+        }
+    }
+    if(part){
+        yield part;
+    }
+}
+// 调用方式
+const iterator = walk('1.5.7-alpha.1');
+// 使用方式 1
+let n = iterator.next()
+n = iterator.next()
+n = iterator.next()
+n = iterator.next()
+n = iterator.next()
+n = iterator.next()
+console.log(n);
+// 使用方式 2
+for(const item of iterator){
+    console.log(item);
+}
+</pre>
+<hr>
+
+
+<a name="private-string"><h3>私有字段</h3></a>
+<pre>
+#必须要在类里面直接声明
+class A{
+    #abc; // 定义一个私有字段
+    constructor(){
+        this.#abc = 123;
+    }
+    #method(){
+        console.log('私有方法');
+    }
+}
+var a = new A();
+console.log(a);
+</pre>
+
+</body>
+<script src="./function.js"></script>
+<script title="比较版本号">
+    // 调用方式
+    const iterator = walk('1.5.7-alpha.1');
+    // 使用方式 1
+    let n = iterator.next()
+    n = iterator.next()
+    n = iterator.next()
+    n = iterator.next()
+    n = iterator.next()
+    n = iterator.next()
+    console.log(n);
+    // 使用方式 2
+    for(const item of iterator){
+        console.log(item);
+    }
+</script>
+<script title="私有字段">
+    class A{
+        #abc; // 定义一个私有字段
+        constructor(){
+            this.#abc = 123;
+        }
+        #method(){
+            console.log('私有方法');
+        }
+    }
+    var a = new A();
+    console.log(a.#abc);
+</script>
+</html>

@@ -9,15 +9,19 @@
 </head>
 <body>
 	<div id="app">
-		<div class="left">
+		<div class="left" v-if="isShow">
+			<button class="close-btn" @click="closeBtn(false)">关闭</button>
 			<ul>
 				<li v-for="item in demoList" ><button @click="toPage(item.path, item.type)">{{item.title}}</button></li>
 			</ul>
 		</div>
 		<div class="right">
+			<div class="btn-box">
+				<button v-if="!isShow" class="menu-btn" @click="closeBtn(true)">目录</button>
+				<button class="refresh-btn" @click="refresh">刷新</button>
+			</div>
 			<iframe ref="iframe" name="myiframe" :src="pagePath" @load="onIframeLoad"></iframe>
 		</div>
-		<button class="refresh-btn" @click="refresh">刷新内容框</button>
 	</div>
 	
 </body>
@@ -29,12 +33,17 @@
 			demoList = ref(demoList)
 			const iframe = ref(null);
 			let pagePath = ref('')
+			let isShow = ref(true)
+			
 			const toPage = (path, type = false) => {
 				if(type === 'md'){
 					pagePath.value = './md/index.html?name=' + path
 				} else {
 					pagePath.value = './module/' + path + '/index.html'
 				}
+			}
+			const closeBtn = (status = false) => {
+			    isShow.value = status
 			}
 			const onIframeLoad = () => {
 			}
@@ -45,8 +54,10 @@
 				demoList,
 				iframe,
 				pagePath,
+				isShow,
 				onIframeLoad,
 				toPage,
+				closeBtn,
 				refresh
 			}
 	    },

@@ -13,6 +13,14 @@ var demoList = [
     'type':'md'
   },
   {
+    'title':'css样式属性',
+    'path':'css_style',
+  },
+  {
+    'title':'js使用小技巧',
+    'path':'js_tips',
+  },
+  {
     'title':'不规则的文字环绕',
     'path':'huanrao',
   },
@@ -34,7 +42,7 @@ var demoList = [
     'path':'black_white',
   },
   {
-    'title':'视频文本话',
-    'path':'video_text',
+    'title':'奇妙的头像特效',
+    'path':'header_imge',
   },
 ]
