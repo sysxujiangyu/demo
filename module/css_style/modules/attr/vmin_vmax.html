@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    
+</head>
+<style>
+body {
+    height:300px;
+}
+.filter-style {
+   // grayscale 灰阶滤镜 0原色 0.5灰色 1 黑白
+   filter: grayscale(1);
+}
+.img1 {
+   width: 100vmin;
+   // height:100vmin;
+}
+
+.img2 {
+   width: 100vmax;
+   // height:100vmax;
+}
+</style>
+<body>
+<pre>
+vmin:按照当前视图窗口宽/高，取两者最小的值
+vmax:按照当前视图窗口宽/高，取两者最大的值
+<div class="filter-box">
+<h4>-- 图片宽度使用 vmin</h4>
+<img src="../../../../static/img/avatar.png" alt="" class="img1">
+
+<img src="../../../../static/img/vscode-1.png" alt="" class="img1">
+<h4>-- 图片宽度使用 vmax  && 并应用了黑白滤镜</h4>
+<img class="filter-style img2" src="../../../../static/img/avatar.png" alt="">
+</div>
+</pre>  
+</body>
+</html>

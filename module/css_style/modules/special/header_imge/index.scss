@@ -9,6 +9,8 @@ body {
 }
 
 img {
+    outline:none;
+    -webkit-tap-highlight-color: rgba(0,0,0,0);
     --s: 200px;
     --c1: rgb(79, 170, 201);
     --c2: lightblue;
@@ -41,6 +43,7 @@ img {
             transparent
         ) 
         var(--bgOption);
+    // pointer-events: none;
     // --------------- test start -------------------- //
     // background: linear-gradient(#000 0 0)  
     //     no-repeat center 

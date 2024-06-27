@@ -21,4 +21,15 @@
   -o-border-image: linear-gradient(265.13deg, #a392e8 -6.01%, #f17e99 33.34%, #f0933d 48.66%, #96be2a 64.54%, #5acba2 83.26%) 20%;
      border-image: linear-gradient(265.13deg, #a392e8 -6.01%, #f17e99 33.34%, #f0933d 48.66%, #96be2a 64.54%, #5acba2 83.26%) 20%;
   border-style: solid;
+}
+
+.content-box {
+  width: 100%;
+  margin: auto;
+}
+
+iframe {
+  width: 100%;
+  overflow: scroll;
+  overflow-y: hidden;
 }/*# sourceMappingURL=public.css.map */

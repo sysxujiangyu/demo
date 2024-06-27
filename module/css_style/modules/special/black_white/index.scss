@@ -1,5 +1,9 @@
-body {
+.box {
+    height: 250px;
     background-color: #66c7f4;
+    display: flex;
+    align-items: center; /* 垂直居中 */
+    justify-content: center; /* 水平居中，可选 */
 }
 
 $ballSize: 10px; // 小球尺寸
@@ -11,7 +15,7 @@ $duration: 2s;
     width: $containerSize;
     height: $containerSize;
     border: 1px solid #fff;
-    margin: 50px auto;
+    margin: auto;
     position: relative;
     border-radius: 50%;
     .dot {

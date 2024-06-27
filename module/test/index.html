@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Hover Effect with Mask</title>
+<style>
+  .masked-element {
+    width: 200px;
+    height: 200px;
+    background-image: url('./transparent-background.png'); /* 这是一个透明的PNG图片 */
+    -webkit-mask-image: url('../../static/img/ma.png'); /* 这是一个白色部分想要显示，黑色部分想要隐藏的PNG掩码图片 */
+    -webkit-mask-size: cover;
+  }
+  
+  .masked-element:hover {
+    background-color: red; /* 鼠标悬浮时背景变红 */
+  }
+</style>
+</head>
+<body>
+ 
+<div class="masked-element"></div>
+ 
+</body>
+</html>

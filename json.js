@@ -25,10 +25,6 @@ var demoList = [
     'path':'huanrao',
   },
   {
-    'title':'实现手机下方导航',
-    'path':'talbar',
-  },
-  {
     'title':'任务队列的中断和回复',
     'path':'processTasks',
   },
@@ -38,11 +34,7 @@ var demoList = [
     'type':'md'
   },
   {
-    'title':'黑白小球交替的loading效果',
-    'path':'black_white',
-  },
-  {
-    'title':'奇妙的头像特效',
-    'path':'header_imge',
+    'title':'开发测试',
+    'path':'test',
   },
 ]
